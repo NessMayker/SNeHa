@@ -20,7 +20,6 @@ def findNearest(x1,x2,y1,y2):
 
         idx = np.argmin(dist, axis=1)
         mindist = np.nanmin(dist, axis=1)
-        print(dist[0][idx],mindist)
 
     else: 
         mindist = np.full_like(len(x2),float("nan"))
