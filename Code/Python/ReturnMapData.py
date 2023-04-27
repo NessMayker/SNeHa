@@ -13,14 +13,14 @@ sys.path.append('/home/mayker.1/Desktop/PythonFunctions')
 from deprojectGalaxy import deproject
 
 
-def returnMapData(image, aco, centerCoord, incl, pa):
+def returnMapData(image, centerCoord, incl, pa):
 
     # read in fits files
     hdu_int  = pyfits.open(image)
-    intMap   = hdu_int[0].data
+    intMap   = hdu_int["HA6562_FLUX"].data
 
     #Convert x & y pixels to ra and dec
-    wcs      = WCS(hdu_int[0].header, naxis=2)
+    wcs      = WCS(hdu_int["HA6562_FLUX"].header, naxis=2)
     naxis    = wcs._naxis # size of image naxis[0] = x and [1] = y
     grid     = np.indices((naxis[1],naxis[0]))
     ra, dec  = wcs.wcs_pix2world(grid[1],grid[0],0)
@@ -43,13 +43,6 @@ def returnMapData(image, aco, centerCoord, incl, pa):
     dx    = f_dx[keep]
     dy    = f_dy[keep]
 
-    if os.path.isfile(aco):
-        hdu_aco = pyfits.open(aco)
-        acomap, footprint = reproject_interp(hdu_aco, hdu_int[0].header)
-        f_aco = acomap.flatten()
-        alphaCO = f_aco[keep]
-        alphaCO = np.nan_to_num(alphaCO, nan=6.7)
-    else: alphaCO = np.full(len(inten),6.7,dtype=float)
-    return(inten, alphaCO, ra, dec, dx, dy)
+    return(inten, ra, dec, dx, dy)
 
 

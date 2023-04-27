@@ -17,11 +17,11 @@ from normalize import norm
 from FindNearestMC import angDistToPc, findNearest
 from ReturnMapData import returnMapData
 
-def runModels(galaxy, image, aco, centerCoord, pa, incl, galDist, modelType = 1, starLight = None, starRa = None, starDec = None, expSize = 100):
+def runModels(galaxy, image, centerCoord, pa, incl, galDist, modelType = 1, starLight = None, starRa = None, starDec = None, expSize = 100):
     r_ra, r_dec, r_dx, r_dy, r_sm = [],[],[],[],[]
    
     if os.path.isfile(image):
-        inten, alphaCO, ra, dec, dx, dy = returnMapData(image, aco, centerCoord=centerCoord, incl=incl, pa=pa)
+        inten, ra, dec, dx, dy = returnMapData(image, centerCoord=centerCoord, incl=incl, pa=pa)
       
         #if model is random
         if modelType == 1:
@@ -33,7 +33,7 @@ def runModels(galaxy, image, aco, centerCoord, pa, incl, galDist, modelType = 1,
             r_dec = dec[rand]
             r_dx  = dx[rand]
             r_dy  = dy[rand]
-            r_sm = inten[rand] * alphaCO[rand] * np.cos(incl*np.pi/180.)
+            r_int = inten[rand] * np.cos(incl*np.pi/180.)
             
 
         #if model is gas density weighted
@@ -52,7 +52,7 @@ def runModels(galaxy, image, aco, centerCoord, pa, incl, galDist, modelType = 1,
             r_dx  = dx[rand]
             r_dy  = dy[rand]
             #r_int = inten[rand]
-            r_sm = inten[rand] * alphaCO[rand] * np.cos(incl*np.pi/180.)
+            r_int = inten[rand] * np.cos(incl*np.pi/180.)
 
         #if model is starlight density weighted
         elif modelType == 3:
@@ -71,11 +71,11 @@ def runModels(galaxy, image, aco, centerCoord, pa, incl, galDist, modelType = 1,
             r_dx  = starDx[rand]
             r_dy  = starDy[rand]
             #r_int = inten[rand]
-            r_sm = inten[rand] * alphaCO[rand] * np.cos(incl*np.pi/180.)
+            r_int = inten[rand] * np.cos(incl*np.pi/180.)
 
         else: print("Wrong model choice, should be 1, 2, or 3.")
-        print("r_sm:",r_sm)
-        return(r_ra, r_dec, r_dx, r_dy, r_sm)
+        print("r_int:",r_int)
+        return(r_ra, r_dec, r_dx, r_dy, r_int)
 
 
     else:
