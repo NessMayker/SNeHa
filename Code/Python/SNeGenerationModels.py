@@ -17,11 +17,11 @@ from normalize import norm
 from FindNearestMC import angDistToPc, findNearest
 from ReturnMapData import returnMapData
 
-def runModels(galaxy, image, centerCoord, pa, incl, galDist, modelType = 1, starLight = None, starRa = None, starDec = None, expSize = 100):
+def runModels(galaxy, image, ext, centerCoord, pa, incl, galDist, modelType = 1, starLight = None, starRa = None, starDec = None, expSize = 1000):
     r_ra, r_dec, r_dx, r_dy, r_sm = [],[],[],[],[]
    
     if os.path.isfile(image):
-        inten, ra, dec, dx, dy = returnMapData(image, centerCoord=centerCoord, incl=incl, pa=pa)
+        inten, ra, dec, dx, dy = returnMapData(image, ext, centerCoord=centerCoord, incl=incl, pa=pa)
       
         #if model is random
         if modelType == 1:

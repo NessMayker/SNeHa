@@ -1,0 +1,1 @@
+#Galaxy,Supernova,Type,Ra,Dec,MUSERes,MUSENatMap,MUSE150pcMap, MUSE150pcInt
