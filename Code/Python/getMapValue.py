@@ -16,7 +16,7 @@ value : float
 value at given location within map. nan = not in map
 """
 
-def getValue(file, ra, dec):
+def getValue(file, ext, ra, dec):
     
     from IsCoordInMap import IsInMap
     import astropy.io.fits as pyfits
@@ -25,9 +25,9 @@ def getValue(file, ra, dec):
     if(os.path.isfile(file) == True):
 
         hdulist = pyfits.open(file)
-        map = hdulist[0].data
+        map = hdulist[ext].data
 
-        isInMap, xVal, yVal = IsInMap(file, ra, dec)
+        isInMap, xVal, yVal = IsInMap(file, ext, ra, dec)
 
         if isInMap == True:
             value = map[yVal, xVal]

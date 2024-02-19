@@ -1,0 +1,12 @@
+Job on coaticook.stsci.edu started at Mon Oct  9 10:10:13 EDT 2023
+ 
+ Note: IEEE floating-point exception flags raised: 
+    Inexact;  Underflow; 
+ See the Numerical Computation Guide, ieee_flags(3M) 
+
+real       43.2
+user       42.9
+sys         0.2
+ 
+Save synthesis-files to /data/coaticook2/httpd/cgi-bin/tmp/TMP28506/output/SNbayesian.*1
+Done at Mon Oct  9 10:10:57 EDT 2023

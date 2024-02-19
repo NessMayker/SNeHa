@@ -1,6 +1,9 @@
 
 """For generating values for visualization set return distVals = False
-For model 1: set modelType = 1"""
+For model 1: set modelType = 1
+Model 1: Random Distributuon
+Model 2: Gas Densisty Weighted
+Model 3: Starlight Densisty Weighted"""
 
 import os
 import numpy as np
@@ -17,12 +20,16 @@ from normalize import norm
 from FindNearestMC import angDistToPc, findNearest
 from ReturnMapData import returnMapData
 
-def runModels(galaxy, image, ext, centerCoord, pa, incl, galDist, modelType = 1, starLight = None, starRa = None, starDec = None, expSize = 1000):
+def runModels(galaxy, image, ext, centerCoord, pa, incl, galDist, SNra, SNdec, modelType = 1, starLight = None, starRa = None, starDec = None, expSize = 1000, local = None):
     r_ra, r_dec, r_dx, r_dy, r_sm = [],[],[],[],[]
    
     if os.path.isfile(image):
-        inten, ra, dec, dx, dy = returnMapData(image, ext, centerCoord=centerCoord, incl=incl, pa=pa)
-      
+        # return map data and make cutout for local maps if local != None
+        if local == None:
+            inten, ra, dec, dx, dy = returnMapData(image, ext, centerCoord=centerCoord, incl=incl, pa=pa, dist = None, SNra=None, SNdec=None, local=None)
+        else:
+            inten, ra, dec, dx, dy = returnMapData(image, ext, centerCoord=centerCoord, incl=incl, pa=pa, dist = galDist, SNra=SNra, SNdec=SNdec, local=local)
+
         #if model is random
         if modelType == 1:
             numrows = len(inten)    
@@ -51,7 +58,7 @@ def runModels(galaxy, image, ext, centerCoord, pa, incl, galDist, modelType = 1,
             r_dec = dec[rand]
             r_dx  = dx[rand]
             r_dy  = dy[rand]
-            #r_int = inten[rand]
+            r_int = inten[rand]
             r_int = inten[rand] * np.cos(incl*np.pi/180.)
 
         #if model is starlight density weighted
@@ -70,12 +77,13 @@ def runModels(galaxy, image, ext, centerCoord, pa, incl, galDist, modelType = 1,
             r_dec = starDec[rand]
             r_dx  = starDx[rand]
             r_dy  = starDy[rand]
-            #r_int = inten[rand]
+            r_int = inten[rand]
             r_int = inten[rand] * np.cos(incl*np.pi/180.)
 
         else: print("Wrong model choice, should be 1, 2, or 3.")
-        print("r_int:",r_int)
+        # print("r_int:",r_int)
         return(r_ra, r_dec, r_dx, r_dy, r_int)
+
 
 
     else:
