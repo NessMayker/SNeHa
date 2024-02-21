@@ -35,7 +35,7 @@ def returnMapData(image, ext, centerCoord, incl, pa, dist, SNra = None, SNdec = 
 
     # isolate local environment if specified
     if local != None:
-        angBoxSize = findAngSize(local,dist) # 500 pc in decimal degrees
+        angBoxSize = findAngSize(local, dist) # 500 pc in decimal degrees
 
         #cutout2D needs skycoord position to carry units
         ra_cut, dec_cut = Angle(SNra * u.degree), Angle(SNdec * u.degree)

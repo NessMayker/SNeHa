@@ -35,6 +35,8 @@ def nearestHII(galaxy, HII_file, ext, centerCoord, pa, incl, galDist, SNras, SNd
         for i in range(len(SNras)):
             snra = float(SNras[i])
             sndec = float(SNdecs[i])
+
+            # returns local map (with cutout centered on SN if local!=None)
             HII, ra, dec, dx, dy = returnMapData(HII_file, ext, centerCoord, incl, pa, galDist, snra, sndec, local)
 
             # Get the value from the HII map at the SN location
